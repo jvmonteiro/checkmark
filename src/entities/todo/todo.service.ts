@@ -12,6 +12,6 @@ export class TodoService {
     return this.todoList;
   }
   findOne(id: string): ITodo {
-    return data.filter(todo => todo.id !== id)[0];
+    return this.todoList.filter(todo => todo.id === id)[0];
   }
 }
