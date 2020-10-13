@@ -8,8 +8,8 @@ export class TodoController {
   constructor(private todoService: TodoService) {}
 
   @Get()
-  list(): ITodo[] {
-    return this.todoService.findAll();
+  async list(): Promise<ITodo[]> {
+    return await this.todoService.findAll();
   }
 
   @Get(':id')

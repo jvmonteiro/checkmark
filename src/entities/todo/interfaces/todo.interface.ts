@@ -1,7 +1,9 @@
+import { ObjectID } from 'typeorm';
+
 export interface ITodo {
-  id: string;
+  _id: ObjectID;
   creator: string;
-  creation_date: Date;
+  creation_date: string;
   description: string;
-  last_updated: Date;
+  last_updated: string;
 }

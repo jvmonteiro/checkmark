@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Todo } from './todo.entity';
+import { Todos } from './todo.entity';
 
 import { ITodo } from './interfaces/todo.interface';
 import { data } from '../../data/todo-generator';
@@ -11,17 +11,17 @@ import { ObjectID, Repository } from 'typeorm';
 export class TodoService {
   private readonly todoList: ITodo[]; 
   
-  constructor(@InjectRepository(Todo) private todoRepo: Repository<Todo>) {
+  constructor(@InjectRepository(Todos) private todoRepo: Repository<Todos>) {
     this.todoList = [...data];
   }
   
   save(todo: ITodo) {
     this.todoList.push(todo);
   }
-  findAll(): ITodo[] {
-    return this.todoList;
+  async findAll(): Promise<ITodo[]> {
+    return await this.todoRepo.find();
   }
-  findOne(id: string): ITodo {
-    return this.todoList.filter(todo => todo.id === id)[0];
+  findOne(id: ObjectID): ITodo {    
+    return this.todoList.filter(todo => todo._id === id)[0];
   }
 }

@@ -1,20 +1,20 @@
-import {Entity, Column, ObjectIdColumn } from 'typeorm'
+import {Entity, Column, PrimaryGeneratedColumn, ObjectIdColumn, ObjectID} from 'typeorm'
 import { ITodo } from './interfaces/todo.interface';
 
 @Entity()
-export class Todo implements ITodo{
+export class Todos implements ITodo{
   @ObjectIdColumn()
-  id: string;
+  _id: ObjectID;
 
   @Column()
   creator: string;
 
   @Column()
-  creation_date: Date;
+  creation_date: string;
   
   @Column()
   description: string;
 
   @Column()
-  last_updated: Date;
+  last_updated: string;
 }
