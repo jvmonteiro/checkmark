@@ -6,30 +6,22 @@ import { AppService } from './app.service';
 
 /* Dotenv config */
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import MongoConfig from './config/mongo.connector';
+import {MongoConfig, TypeOrmSetup} from './config/mongo.connector';
 import {TypeOrmModule} from '@nestjs/typeorm';
 
 /* Todo Feature Module */
 import { TodoModule } from './entities/todo/todo.module';
-import { config } from 'process';
 @Module({
   imports: [
     TodoModule,
-    ConfigModule.forRoot({ isGlobal: true, load: [MongoConfig]}),
+    ConfigModule.forRoot({ isGlobal: true, load: [MongoConfig] }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => {
-        return {
-          type: 'mongodb',
-          url: configService.get<string>('url'),
-          useUnifiedTopology: true,
-        };
-      },
+      useFactory: TypeOrmSetup,
       inject: [ConfigService],
     }),
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-}
+export class AppModule {}
