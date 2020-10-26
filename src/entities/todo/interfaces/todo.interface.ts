@@ -1,7 +1,7 @@
-import { ObjectID } from 'typeorm';
+import { ObjectId } from 'mongodb';
 
 export interface ITodo {
-  _id: ObjectID;
+  _id: ObjectId;
   creator: string;
   creation_date: string;
   description: string;

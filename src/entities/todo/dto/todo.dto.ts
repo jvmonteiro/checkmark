@@ -1,7 +1,7 @@
-import { ObjectID } from 'typeorm';
+import { ObjectId } from 'mongodb';
 import { ITodo } from '../interfaces/todo.interface';
 export class TodoDto implements ITodo {
-  _id: ObjectID;
+  _id: ObjectId;
   creator: string;
   creation_date: string;
   description: string;

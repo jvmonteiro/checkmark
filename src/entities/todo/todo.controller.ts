@@ -3,6 +3,7 @@ import { ITodo } from './interfaces/todo.interface';
 import { TodoDto } from './dto/todo.dto';
 import { TodoService } from './todo.service';
 
+
 @Controller('todos')
 export class TodoController {
   constructor(private todoService: TodoService) {}
@@ -13,12 +14,12 @@ export class TodoController {
   }
 
   @Get(':id')
-  find(@Param('id') id): ITodo {
-    return this.todoService.findOne(id);
+  async find(@Param('id') id): Promise<ITodo> {
+    return await this.todoService.findOne(id);
   }
 
   @Post()
-  save(@Body() todo: TodoDto): void {
+  save(@Body() todo: TodoDto): Promise<void> {
     return this.todoService.save(todo);
   }
 }

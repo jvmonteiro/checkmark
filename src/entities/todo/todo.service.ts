@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ObjectId } from 'mongodb';
+import { ObjectID, Repository } from 'typeorm';
 
 import { Todos } from './todo.entity';
-
 import { ITodo } from './interfaces/todo.interface';
 import { data } from '../../data/todo-generator';
-import { ObjectID, Repository } from 'typeorm';
 
 @Injectable()
 export class TodoService {
@@ -15,13 +15,29 @@ export class TodoService {
     this.todoList = [...data];
   }
   
-  save(todo: ITodo) {
-    this.todoList.push(todo);
+  // Create a new todo
+  async save(todo: ITodo) {
+    // this.todoList.push(todo);
+    this.todoRepo.save(todo);
   }
+
+  // Find all todos in database.
   async findAll(): Promise<ITodo[]> {
     return await this.todoRepo.find();
   }
-  findOne(id: ObjectID): ITodo {    
-    return this.todoList.filter(todo => todo._id === id)[0];
+
+  // Find one todo in database.
+  async findOne(id: string): Promise<ITodo> {    
+    return await this.todoRepo.findOne({_id: new ObjectId(id)});
+  }
+
+  // Update the desired todo.
+  async update(id: string): Promise<any> {
+    return Promise.resolve('UPDATED THE TODO!');
+  }
+
+  // Removes one todo.
+  async remove(id: string): Promise<any> {
+    return Promise.resolve('REMOVED TODO');
   }
 }

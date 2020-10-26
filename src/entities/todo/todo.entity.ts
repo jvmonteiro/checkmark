@@ -1,10 +1,10 @@
-import {Entity, Column, PrimaryGeneratedColumn, ObjectIdColumn, ObjectID} from 'typeorm'
+import {Entity, Column, ObjectIdColumn} from 'typeorm'
 import { ITodo } from './interfaces/todo.interface';
-
+import { ObjectId } from 'mongodb';
 @Entity()
 export class Todos implements ITodo{
   @ObjectIdColumn()
-  _id: ObjectID;
+  _id: ObjectId;
 
   @Column()
   creator: string;
