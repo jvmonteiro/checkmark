@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ObjectId } from 'mongodb';
-import { ObjectID, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
+import { TodoDto } from './dto/todo.dto';
 import { Todos } from './todo.entity';
 import { ITodo } from './interfaces/todo.interface';
 import { data } from '../../data/todo-generator';
@@ -16,9 +17,14 @@ export class TodoService {
   }
   
   // Create a new todo
-  async save(todo: ITodo) {
+  async save(todo: TodoDto) {
     // this.todoList.push(todo);
-    this.todoRepo.save(todo);
+    const todoObject = new Todos();    
+    todoObject.creator = todo.creator
+    todoObject.creation_date = todo.creation_date
+    todoObject.description = todo.description
+    todoObject.last_updated = todo.last_updated
+    this.todoRepo.save(todoObject);
   }
 
   // Find all todos in database.

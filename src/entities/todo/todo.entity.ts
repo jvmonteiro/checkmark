@@ -1,4 +1,4 @@
-import {Entity, Column, ObjectIdColumn} from 'typeorm'
+import {Entity, Column, PrimaryGeneratedColumn, ObjectIdColumn} from 'typeorm'
 import { ITodo } from './interfaces/todo.interface';
 import { ObjectId } from 'mongodb';
 @Entity()
