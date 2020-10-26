@@ -6,8 +6,8 @@ import { AppService } from './app.service';
 
 /* Dotenv config */
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import {MongoConfig, TypeOrmSetup} from './config/mongo.connector';
-import {TypeOrmModule} from '@nestjs/typeorm';
+import { MongoConfig, MongooseSetup } from './config/mongo.connector';
+import { MongooseModule } from '@nestjs/mongoose';
 
 /* Todo Feature Module */
 import { TodoModule } from './entities/todo/todo.module';
@@ -15,9 +15,9 @@ import { TodoModule } from './entities/todo/todo.module';
   imports: [
     TodoModule,
     ConfigModule.forRoot({ isGlobal: true, load: [MongoConfig] }),
-    TypeOrmModule.forRootAsync({
+    MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: TypeOrmSetup,
+      useFactory: MongooseSetup,
       inject: [ConfigService],
     }),
   ],

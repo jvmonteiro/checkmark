@@ -1,49 +1,42 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { ObjectId } from 'mongodb';
-import { Repository } from 'typeorm';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
-import { TodoDto } from './dto/todo.dto';
-import { Todos } from './todo.entity';
+import { CreateTodoDto, TodoDto } from './dto/todo.dto';
 import { ITodo } from './interfaces/todo.interface';
-import { data } from '../../data/todo-generator';
+import { TodoDocument } from './todo.entity';
+
 
 @Injectable()
 export class TodoService {
-  private readonly todoList: ITodo[]; 
   
-  constructor(@InjectRepository(Todos) private todoRepo: Repository<Todos>) {
-    this.todoList = [...data];
+  constructor(@InjectModel('Todo') private todoModel: Model<TodoDocument>) {
   }
   
   // Create a new todo
   async save(todo: TodoDto) {
-    // this.todoList.push(todo);
-    const todoObject = new Todos();    
-    todoObject.creator = todo.creator
-    todoObject.creation_date = todo.creation_date
-    todoObject.description = todo.description
-    todoObject.last_updated = todo.last_updated
-    this.todoRepo.save(todoObject);
+    const todoDoc = new this.todoModel(todo);
+    return await todoDoc.save();
   }
 
   // Find all todos in database.
   async findAll(): Promise<ITodo[]> {
-    return await this.todoRepo.find();
+    return await this.todoModel.find().exec();
   }
 
   // Find one todo in database.
   async findOne(id: string): Promise<ITodo> {    
-    return await this.todoRepo.findOne({_id: new ObjectId(id)});
+    return await this.todoModel.findById(id);
   }
 
   // Update the desired todo.
-  async update(id: string): Promise<any> {
-    return Promise.resolve('UPDATED THE TODO!');
+  async update(todo: CreateTodoDto): Promise<any> {
+    // return Promise.resolve('UPDATED TODO');
+    return await this.todoModel.findByIdAndUpdate(todo._id, todo, {new: true, upsert: true});
   }
 
   // Removes one todo.
-  async remove(id: string): Promise<any> {
-    return Promise.resolve('REMOVED TODO');
+  async delete(_id: string): Promise<any> {
+    return await this.todoModel.findOneAndDelete({_id});  
   }
 }

@@ -1,20 +1,23 @@
-import {Entity, Column, PrimaryGeneratedColumn, ObjectIdColumn} from 'typeorm'
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 import { ITodo } from './interfaces/todo.interface';
-import { ObjectId } from 'mongodb';
-@Entity()
-export class Todos implements ITodo{
-  @ObjectIdColumn()
-  _id: ObjectId;
+// import { ObjectId } from 'mongodb';
 
-  @Column()
+export type TodoDocument = ITodo & Document
+
+@Schema()
+export class Todo {
+  @Prop()
   creator: string;
 
-  @Column()
+  @Prop()
   creation_date: string;
   
-  @Column()
+  @Prop()
   description: string;
 
-  @Column()
+  @Prop()
   last_updated: string;
 }
+
+export const TodoSchema = SchemaFactory.createForClass(Todo);
