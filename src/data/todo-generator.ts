@@ -1,12 +1,10 @@
 import * as faker from 'faker';
-import { ITodo } from '../entities/todo/interfaces/todo.interface';
-import { ObjectId } from 'mongodb';
+import { TodoDto } from 'src/entities/todo/dto/todo.dto';
 
-export const data: ITodo[] = (() => {
-  const todos: ITodo[] = [];
-  for (let i = 0; i < 15; i++) {
-    const todo: ITodo = {
-      _id: new ObjectId(),
+export const data = (amount: number): TodoDto[] => {
+  const todos: TodoDto[] = [];
+  for (let i = 0; i < amount; i++) {
+    const todo: TodoDto = {
       creator: faker.name.findName(),
       creation_date: faker.date.past().toISOString(),
       description: faker.random.words(Math.floor(6 * Math.random()) + 4),
@@ -15,4 +13,4 @@ export const data: ITodo[] = (() => {
     todos.push(todo);
   }
   return todos;
-})();
+};

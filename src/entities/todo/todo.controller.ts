@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { ITodo } from './interfaces/todo.interface';
 import { CreateTodoDto, TodoDto } from './dto/todo.dto';
 import { TodoService } from './todo.service';
@@ -29,8 +29,18 @@ export class TodoController {
     return await this.todoService.update(todo);
   }
 
-  @Delete()
-  async delete(@Body() _id: string): Promise<any> {
+  @Delete(':id')
+  async delete(@Param('id') _id: string): Promise<any> {
     return await this.todoService.delete(_id);
+  }
+
+  @Post('/batch/fill/:amount')
+  async fill(@Param('amount') amount): Promise<TodoDocument[]>{
+    return await this.todoService.fill(amount);
+  }
+
+  @Delete('/batch/delete/:amount')
+  async clear(@Param('amount', ParseIntPipe) amount: number) {
+    return await this.todoService.clear(amount)
   }
 }
