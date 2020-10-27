@@ -30,7 +30,7 @@ export class TodoController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') _id: string): Promise<any> {
+  async delete(@Param('id') _id: string): Promise<TodoDocument> {
     return await this.todoService.delete(_id);
   }
 
@@ -40,7 +40,7 @@ export class TodoController {
   }
 
   @Delete('/batch/delete/:amount')
-  async clear(@Param('amount', ParseIntPipe) amount: number) {
+  async clear(@Param('amount', ParseIntPipe) amount: number): Promise<TodoDocument[]> {
     return await this.todoService.clear(amount)
   }
 }

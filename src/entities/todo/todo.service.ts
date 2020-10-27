@@ -19,32 +19,31 @@ export class TodoService {
   }
 
   // Find all todos in database.
-  async findAll(): Promise<ITodo[]> {
+  async findAll(): Promise<TodoDocument[]> {
     return await this.todoModel.find().exec();
   }
 
   // Find one todo in database.
-  async findOne(id: string): Promise<ITodo> {    
+  async findOne(id: string): Promise<TodoDocument> {    
     return await this.todoModel.findById(id);
   }
 
   // Update the desired todo.
-  async update(todo: CreateTodoDto): Promise<any> {
-    // return Promise.resolve('UPDATED TODO');
+  async update(todo: CreateTodoDto): Promise<any> {    
     return await this.todoModel.findByIdAndUpdate(todo._id, todo, {new: true, upsert: true});
   }
 
   // Removes one todo.
-  async delete(_id: string): Promise<any> {
+  async delete(_id: string): Promise<TodoDocument> {
     return await this.todoModel.findOneAndDelete({_id});  
   }
 
-  async fill(amount: number): Promise<any> {
+  async fill(amount: number): Promise<TodoDocument[]> {
     const todos = data(amount);
     return await this.todoModel.insertMany(todos);
   }
 
-  async clear(amount: number): Promise<any> {
+  async clear(amount: number): Promise<TodoDocument[]> {
     const todos: TodoDocument[] = await this.todoModel.find({}, {}, { limit: amount, sort: { timestamp: -1 } }).exec();
     const ids = todos.map((doc) => doc._id);
     
