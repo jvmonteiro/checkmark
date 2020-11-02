@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 import { ITodo } from './interfaces/todo.interface';
 // import { ObjectId } from 'mongodb';
 
-export type TodoDocument = ITodo & Document
+export type TodoDocument = ITodo & Document;
 
 @Schema()
 export class Todo {
@@ -12,12 +12,15 @@ export class Todo {
 
   @Prop()
   creation_date: string;
-  
+
   @Prop()
   description: string;
 
   @Prop()
   last_updated: string;
+
+  @Prop()
+  completed: boolean;
 }
 
 export const TodoSchema = SchemaFactory.createForClass(Todo);

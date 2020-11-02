@@ -8,6 +8,7 @@ export const data = (amount: number): TodoDto[] => {
       creator: faker.name.findName(),
       creation_date: faker.date.past().toISOString(),
       description: faker.random.words(Math.floor(6 * Math.random()) + 4),
+      completed: false,
       last_updated: faker.date.recent().toISOString(),
     };
     todos.push(todo);
